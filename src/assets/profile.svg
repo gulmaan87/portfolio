@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="g1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(170 140) rotate(55) scale(420 420)">
+      <stop stop-color="#38BDF8" stop-opacity="0.9"/>
+      <stop offset="0.55" stop-color="#A855F7" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#0B1020" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="g2" x1="90" y1="90" x2="422" y2="422" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.06"/>
+    </linearGradient>
+    <filter id="blur" x="-50" y="-50" width="612" height="612" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="256" fill="url(#g1)"/>
+  <path d="M256 282c56 0 102-46 102-102S312 78 256 78s-102 46-102 102 46 102 102 102Z" fill="url(#g2)"/>
+  <path d="M106 420c26-72 82-116 150-116s124 44 150 116" stroke="url(#g2)" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="212" stroke="white" stroke-opacity="0.10" stroke-width="2"/>
+  <circle cx="256" cy="256" r="168" stroke="white" stroke-opacity="0.08" stroke-width="2" filter="url(#blur)"/>
+</svg>
+
