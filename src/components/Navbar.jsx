@@ -1,30 +1,34 @@
 import { useEffect, useMemo, useState } from 'react'
-import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
-import { FiMenu, FiX } from 'react-icons/fi'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  FiHome, 
+  FiUser, 
+  FiBookOpen, 
+  FiCpu, 
+  FiAward, 
+  FiCheckCircle, 
+  FiFileText, 
+  FiLayers, 
+  FiCompass, 
+  FiSend 
+} from 'react-icons/fi'
 
 const navLinks = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'education', label: 'Education' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'achievements', label: 'Achievements' },
-  { id: 'certifications', label: 'Certifications' },
-  { id: 'resume', label: 'Resume' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'architecture', label: 'Architecture' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'home', label: 'Home', icon: FiHome },
+  { id: 'about', label: 'About', icon: FiUser },
+  { id: 'education', label: 'Education', icon: FiBookOpen },
+  { id: 'skills', label: 'Skills', icon: FiCpu },
+  { id: 'achievements', label: 'Achievements', icon: FiAward },
+  { id: 'certifications', label: 'Certifications', icon: FiCheckCircle },
+  { id: 'resume', label: 'Resume', icon: FiFileText },
+  { id: 'projects', label: 'Projects', icon: FiLayers },
+  { id: 'architecture', label: 'Architecture', icon: FiCompass },
+  { id: 'contact', label: 'Contact', icon: FiSend },
 ]
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
   const [active, setActive] = useState('home')
   const [hovered, setHovered] = useState(null)
-  const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 25,
-    restDelta: 0.001,
-  })
 
   const linkItems = useMemo(() => navLinks, [])
 
@@ -40,135 +44,102 @@ export default function Navbar() {
 
         if (visible[0]?.target?.id) setActive(visible[0].target.id)
       },
-      { threshold: [0.2, 0.35, 0.5], rootMargin: '-18% 0px -65% 0px' },
+      { threshold: [0.1, 0.2, 0.3], rootMargin: '-20% 0px -60% 0px' },
     )
 
     nodes.forEach((node) => observer.observe(node))
     return () => observer.disconnect()
   }, [linkItems])
 
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 768) setOpen(false)
-    }
-
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
-
   const onNav = (id) => {
-    setOpen(false)
     setActive(id)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
-    <header className="sticky top-0 z-[100] pt-4">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(5,6,10,0.92),rgba(5,6,10,0.18),rgba(5,6,10,0))]" />
-      <motion.div
-        className="pointer-events-none fixed inset-x-0 top-0 z-40 h-1 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500"
-        style={{ scaleX, transformOrigin: '0% 50%' }}
-      />
+    <>
+      {/* Desktop Vertical Left Dock */}
+      <nav className="fixed left-6 top-1/2 z-[1000] -translate-y-1/2 hidden lg:flex flex-col gap-3">
+        <div className="glass-card depth-card flex flex-col items-center gap-2 rounded-full p-2 py-4 shadow-[0_16px_48px_rgba(0,0,0,0.4)] bg-[#0a0c14]/80 backdrop-blur-xl border-white/10">
+          {linkItems.map((link) => {
+            const isActive = active === link.id
+            const isHovered = hovered === link.id
+            const Icon = link.icon
 
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="glass-card depth-card flex items-center justify-between gap-4 rounded-[1.75rem] px-4 py-3 shadow-[0_16px_48px_rgba(0,0,0,0.3)]">
-          <button
-            type="button"
-            onClick={() => onNav('home')}
-            className="group inline-flex items-center gap-3 text-left"
-            aria-label="Go to home"
-          >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/15 bg-[linear-gradient(135deg,rgba(8,145,178,0.18),rgba(37,99,235,0.12))]">
-              <span className="signal-dot h-2.5 w-2.5 rounded-full bg-cyan-300 text-cyan-300" />
-            </span>
-            <div className="leading-tight">
-              <div className="text-sm font-semibold tracking-tight text-zinc-100">
-                Mohd Gulman Meer
-              </div>
-              <div className="text-xs text-zinc-400">Cloud systems, delivery, observability</div>
-            </div>
-          </button>
-
-          <nav
-            className="hidden flex-1 items-center justify-end gap-1 md:flex"
-            onMouseLeave={() => setHovered(null)}
-          >
-            {linkItems.map((link) => {
-              const isActive = active === link.id
-              const isHovered = hovered === link.id
-
-              return (
+            return (
+              <div key={link.id} className="relative flex items-center">
                 <button
-                  key={link.id}
                   type="button"
                   onClick={() => onNav(link.id)}
                   onMouseEnter={() => setHovered(link.id)}
-                  className={`relative isolate rounded-full px-3.5 py-2 text-sm transition ${
-                    isActive ? 'text-cyan-100' : isHovered ? 'text-white' : 'text-zinc-300'
+                  onMouseLeave={() => setHovered(null)}
+                  className={`relative isolate flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 ${
+                    isActive ? 'text-cyan-300' : 'text-zinc-400 hover:text-white'
                   }`}
+                  aria-label={`Scroll to ${link.label}`}
                 >
-                  {(isActive || isHovered) && (
+                  {isActive && (
                     <motion.span
-                      layoutId={isActive ? 'nav-pill-active' : undefined}
-                      className={`absolute inset-0 -z-10 rounded-full border ${
-                        isActive
-                          ? 'border-cyan-300/25 bg-[linear-gradient(135deg,rgba(34,211,238,0.16),rgba(37,99,235,0.16))] shadow-[0_0_24px_rgba(34,211,238,0.12)]'
-                          : 'border-white/10 bg-white/6'
-                      }`}
-                      transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+                      layoutId="nav-dock-active"
+                      className="absolute inset-0 -z-10 rounded-full border border-cyan-300/30 bg-cyan-300/10 shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                     />
                   )}
-                  <span className="relative z-10">{link.label}</span>
+                  <Icon className="h-5 w-5 relative z-10" />
                 </button>
-              )
-            })}
-          </nav>
 
-          <button
-            type="button"
-            className="holo-panel inline-flex items-center justify-center rounded-2xl p-2 text-zinc-200 hover:bg-white/10 md:hidden"
-            onClick={() => setOpen((value) => !value)}
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-          >
-            {open ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-            className="mx-auto mt-3 max-w-7xl px-4 md:hidden"
-          >
-            <div className="glass-card depth-card rounded-[1.75rem] p-3">
-              {linkItems.map((link) => (
-                <button
-                  key={link.id}
-                  type="button"
-                  onClick={() => onNav(link.id)}
-                  className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm transition ${
-                    active === link.id
-                      ? 'bg-cyan-300/10 text-cyan-100'
-                      : 'text-zinc-200 hover:bg-white/5'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {active === link.id ? (
-                    <span className="h-2 w-2 rounded-full bg-cyan-300" />
-                  ) : (
-                    <span className="text-zinc-600">/</span>
+                <AnimatePresence>
+                  {isHovered && (
+                    <motion.div
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      className="absolute left-14 whitespace-nowrap"
+                    >
+                      <div className="rounded-lg border border-white/10 bg-[#0a0c14]/95 px-3 py-1.5 text-xs font-semibold text-white shadow-xl backdrop-blur-md">
+                        {link.label}
+                      </div>
+                    </motion.div>
                   )}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </header>
+                </AnimatePresence>
+              </div>
+            )
+          })}
+        </div>
+      </nav>
+
+      {/* Mobile Bottom Dock */}
+      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000] flex lg:hidden">
+        <div className="glass-card depth-card flex items-center gap-1 rounded-full p-1.5 shadow-[0_16px_48px_rgba(0,0,0,0.4)] bg-[#0a0c14]/80 backdrop-blur-xl border-white/10 max-w-[90vw] overflow-x-auto no-scrollbar">
+          {linkItems.map((link) => {
+            const isActive = active === link.id
+            const Icon = link.icon
+
+            return (
+              <button
+                key={link.id}
+                type="button"
+                onClick={() => onNav(link.id)}
+                className={`relative isolate flex min-w-[44px] h-11 items-center justify-center rounded-full transition-all duration-300 ${
+                  isActive ? 'text-cyan-300 px-4 gap-2' : 'text-zinc-400'
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-dock-active-mobile"
+                    className="absolute inset-0 -z-10 rounded-full border border-cyan-300/30 bg-cyan-300/10 shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                  />
+                )}
+                <Icon className="h-5 w-5" />
+                {isActive && (
+                  <span className="text-xs font-bold whitespace-nowrap">{link.label}</span>
+                )}
+              </button>
+            )
+          })}
+        </div>
+      </nav>
+    </>
   )
 }
