@@ -3,14 +3,34 @@ import { FiBookOpen, FiCalendar, FiMapPin } from 'react-icons/fi'
 
 const education = [
   {
-    degree: 'B.Tech / BSc (Computer Science)',
-    school: 'Your University Name',
-    location: 'India',
-    period: '2022 - 2026',
+    degree: 'Bachelor of Technology (CSE)',
+    school: 'Lovely Professional University',
+    location: 'Punjab, India',
+    period: 'Aug 2023 - Present',
     highlights: [
+      'CGPA: 6.39',
       'Focus: cloud infrastructure, DevOps automation, and distributed systems',
       'Core areas: operating systems, networking, databases, and system design',
-      'Projects: Kubernetes platform and real-time distributed chat',
+    ],
+  },
+  {
+    degree: 'Intermediate',
+    school: 'T.R.N.S.S.I.C',
+    location: 'Jagdishpur, Pratapgarh, Uttar Pradesh',
+    period: 'May 2020 - Feb 2021',
+    highlights: [
+      'Percentage: 78.4%',
+      'Focused on science and mathematics fundamentals',
+    ],
+  },
+  {
+    degree: 'Matriculation',
+    school: 'S.J.S. Public School',
+    location: 'Amethi, Uttar Pradesh',
+    period: 'Apr 2016 - Mar 2017',
+    highlights: [
+      'CGPA: 8.0',
+      'Foundational education with strong academic performance',
     ],
   },
 ]
