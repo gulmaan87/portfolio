@@ -38,7 +38,6 @@ export default function Home() {
         <Architecture />
         <Contact />
       </main>
-      <FloatingDock />
       <Footer />
     </div>
   )

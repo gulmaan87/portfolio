@@ -10,7 +10,9 @@ import {
   FiFileText, 
   FiLayers, 
   FiCompass, 
-  FiSend 
+  FiSend,
+  FiMenu,
+  FiX
 } from 'react-icons/fi'
 
 const navLinks = [
@@ -28,6 +30,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [active, setActive] = useState('home')
+  const [isOpen, setIsOpen] = useState(false)
   const [hovered, setHovered] = useState(null)
 
   const linkItems = useMemo(() => navLinks, [])
@@ -53,93 +56,82 @@ export default function Navbar() {
 
   const onNav = (id) => {
     setActive(id)
+    setIsOpen(false)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
-    <>
-      {/* Desktop Vertical Left Dock - Fixed at the very edge */}
-      <nav className="fixed left-4 top-1/2 z-[1000] -translate-y-1/2 hidden xl:flex flex-col gap-3">
-        <div className="glass-card depth-card flex flex-col items-center gap-2 rounded-full p-2 py-4 shadow-[0_16px_48px_rgba(0,0,0,0.4)] bg-[#0a0c14]/80 backdrop-blur-xl border-white/10">
-          {linkItems.map((link) => {
-            const isActive = active === link.id
-            const isHovered = hovered === link.id
-            const Icon = link.icon
+    <div className="fixed left-6 bottom-8 lg:top-1/2 lg:bottom-auto lg:-translate-y-1/2 z-[1000] flex flex-col items-start gap-4">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ opacity: 0, scale: 0.9, x: -20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.9, x: -20 }}
+            className="glass-card depth-card flex flex-col items-center gap-2 rounded-[2.5rem] p-3 shadow-[0_24px_64px_rgba(0,0,0,0.5)] bg-[#0a0c14]/90 backdrop-blur-2xl border-white/10"
+          >
+            <div className="flex flex-col gap-1.5 max-h-[70vh] overflow-y-auto no-scrollbar py-2">
+              {linkItems.map((link) => {
+                const isActive = active === link.id
+                const isHovered = hovered === link.id
+                const Icon = link.icon
 
-            return (
-              <div key={link.id} className="relative flex items-center">
-                <button
-                  type="button"
-                  onClick={() => onNav(link.id)}
-                  onMouseEnter={() => setHovered(link.id)}
-                  onMouseLeave={() => setHovered(null)}
-                  className={`relative isolate flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 ${
-                    isActive ? 'text-cyan-300' : 'text-zinc-400 hover:text-white'
-                  }`}
-                  aria-label={`Scroll to ${link.label}`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-dock-active"
-                      className="absolute inset-0 -z-10 rounded-full border border-cyan-300/30 bg-cyan-300/10 shadow-[0_0_20px_rgba(34,211,238,0.15)]"
-                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                    />
-                  )}
-                  <Icon className="h-5 w-5 relative z-10" />
-                </button>
-
-                <AnimatePresence>
-                  {isHovered && (
-                    <motion.div
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      className="absolute left-12 whitespace-nowrap"
+                return (
+                  <div key={link.id} className="relative flex items-center">
+                    <button
+                      type="button"
+                      onClick={() => onNav(link.id)}
+                      onMouseEnter={() => setHovered(link.id)}
+                      onMouseLeave={() => setHovered(null)}
+                      className={`relative isolate flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-300 ${
+                        isActive ? 'text-cyan-300' : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                      }`}
+                      aria-label={`Scroll to ${link.label}`}
                     >
-                      <div className="rounded-lg border border-white/10 bg-[#0a0c14]/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xl backdrop-blur-md">
-                        {link.label}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )
-          })}
-        </div>
-      </nav>
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-dock-active"
+                          className="absolute inset-0 -z-10 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+                          transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                        />
+                      )}
+                      <Icon className="h-5 w-5 relative z-10 shrink-0" />
+                    </button>
 
-      {/* Mobile/Tablet Bottom Dock - Ensure it's not blocking content */}
-      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex xl:hidden">
-        <div className="glass-card depth-card flex items-center gap-1 rounded-full p-1.5 shadow-[0_16px_48px_rgba(0,0,0,0.5)] bg-[#0a0c14]/90 backdrop-blur-2xl border-white/10 max-w-[95vw] overflow-x-auto no-scrollbar">
-          {linkItems.map((link) => {
-            const isActive = active === link.id
-            const Icon = link.icon
+                    <AnimatePresence>
+                      {isHovered && (
+                        <motion.div
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -10 }}
+                          className="absolute left-16 whitespace-nowrap"
+                        >
+                          <div className="rounded-lg border border-white/10 bg-[#0a0c14]/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xl backdrop-blur-md">
+                            {link.label}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )
+              })}
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
 
-            return (
-              <button
-                key={link.id}
-                type="button"
-                onClick={() => onNav(link.id)}
-                className={`relative isolate flex min-w-[40px] h-10 items-center justify-center rounded-full transition-all duration-300 ${
-                  isActive ? 'text-cyan-300 px-4 gap-2 bg-white/5' : 'text-zinc-400'
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="nav-dock-active-mobile"
-                    className="absolute inset-0 -z-10 rounded-full border border-cyan-300/30 bg-cyan-300/10"
-                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                  />
-                )}
-                <Icon className="h-5 w-5" />
-                {isActive && (
-                  <span className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">{link.label}</span>
-                )}
-              </button>
-            )
-          })}
-        </div>
-      </nav>
-    </>
+      {/* 3-Line Toggle Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`h-14 w-14 rounded-full shadow-[0_0_30px_rgba(6,182,212,0.3)] flex items-center justify-center transition-all duration-300 active:scale-90 border border-white/10 ${
+          isOpen 
+            ? 'bg-zinc-800 text-white' 
+            : 'bg-gradient-to-br from-cyan-500 to-blue-600 text-white'
+        }`}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+      >
+        {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
+    </div>
   )
 }
