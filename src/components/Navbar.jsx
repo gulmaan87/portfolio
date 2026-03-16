@@ -58,8 +58,8 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Desktop Vertical Left Dock */}
-      <nav className="fixed left-6 top-1/2 z-[1000] -translate-y-1/2 hidden lg:flex flex-col gap-3">
+      {/* Desktop Vertical Left Dock - Fixed at the very edge */}
+      <nav className="fixed left-4 top-1/2 z-[1000] -translate-y-1/2 hidden xl:flex flex-col gap-3">
         <div className="glass-card depth-card flex flex-col items-center gap-2 rounded-full p-2 py-4 shadow-[0_16px_48px_rgba(0,0,0,0.4)] bg-[#0a0c14]/80 backdrop-blur-xl border-white/10">
           {linkItems.map((link) => {
             const isActive = active === link.id
@@ -73,7 +73,7 @@ export default function Navbar() {
                   onClick={() => onNav(link.id)}
                   onMouseEnter={() => setHovered(link.id)}
                   onMouseLeave={() => setHovered(null)}
-                  className={`relative isolate flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 ${
+                  className={`relative isolate flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 ${
                     isActive ? 'text-cyan-300' : 'text-zinc-400 hover:text-white'
                   }`}
                   aria-label={`Scroll to ${link.label}`}
@@ -94,9 +94,9 @@ export default function Navbar() {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
-                      className="absolute left-14 whitespace-nowrap"
+                      className="absolute left-12 whitespace-nowrap"
                     >
-                      <div className="rounded-lg border border-white/10 bg-[#0a0c14]/95 px-3 py-1.5 text-xs font-semibold text-white shadow-xl backdrop-blur-md">
+                      <div className="rounded-lg border border-white/10 bg-[#0a0c14]/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xl backdrop-blur-md">
                         {link.label}
                       </div>
                     </motion.div>
@@ -108,9 +108,9 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Bottom Dock */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000] flex lg:hidden">
-        <div className="glass-card depth-card flex items-center gap-1 rounded-full p-1.5 shadow-[0_16px_48px_rgba(0,0,0,0.4)] bg-[#0a0c14]/80 backdrop-blur-xl border-white/10 max-w-[90vw] overflow-x-auto no-scrollbar">
+      {/* Mobile/Tablet Bottom Dock - Ensure it's not blocking content */}
+      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex xl:hidden">
+        <div className="glass-card depth-card flex items-center gap-1 rounded-full p-1.5 shadow-[0_16px_48px_rgba(0,0,0,0.5)] bg-[#0a0c14]/90 backdrop-blur-2xl border-white/10 max-w-[95vw] overflow-x-auto no-scrollbar">
           {linkItems.map((link) => {
             const isActive = active === link.id
             const Icon = link.icon
@@ -120,20 +120,20 @@ export default function Navbar() {
                 key={link.id}
                 type="button"
                 onClick={() => onNav(link.id)}
-                className={`relative isolate flex min-w-[44px] h-11 items-center justify-center rounded-full transition-all duration-300 ${
-                  isActive ? 'text-cyan-300 px-4 gap-2' : 'text-zinc-400'
+                className={`relative isolate flex min-w-[40px] h-10 items-center justify-center rounded-full transition-all duration-300 ${
+                  isActive ? 'text-cyan-300 px-4 gap-2 bg-white/5' : 'text-zinc-400'
                 }`}
               >
                 {isActive && (
                   <motion.span
                     layoutId="nav-dock-active-mobile"
-                    className="absolute inset-0 -z-10 rounded-full border border-cyan-300/30 bg-cyan-300/10 shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+                    className="absolute inset-0 -z-10 rounded-full border border-cyan-300/30 bg-cyan-300/10"
                     transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                   />
                 )}
                 <Icon className="h-5 w-5" />
                 {isActive && (
-                  <span className="text-xs font-bold whitespace-nowrap">{link.label}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">{link.label}</span>
                 )}
               </button>
             )

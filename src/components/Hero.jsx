@@ -79,7 +79,7 @@ export default function Hero() {
           <div className="hero-copy">
             <div className="hero-brand">
               <motion.span variants={itemVariants} className="hero-eyebrow">Cloud & DevOps Engineer</motion.span>
-              <motion.div variants={itemVariants} className="hero-name-label"><b>Mhd</b> Gulman Meer</motion.div>
+              <motion.div variants={itemVariants} className="hero-name-label"><b>Mohd</b> Gulman Meer</motion.div>
             </div>
 
             <motion.h1 variants={itemVariants} className="hero-headline">

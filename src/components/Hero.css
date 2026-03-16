@@ -73,18 +73,18 @@
   z-index: 2;
   width: min(100%, 94rem);
   margin: 0 auto;
-  padding: 7rem 2rem 6rem;
+  padding: 6rem 2rem; /* Reduced top padding since navbar is side-docked */
 }
 
 .hero-grid {
   display: grid;
-  gap: 3rem; /* Reduced gap from 4rem */
+  gap: 3rem;
   align-items: center;
 }
 
 @media (min-width: 1024px) {
   .hero-grid {
-    grid-template-columns: 4.8fr 5.2fr;
+    grid-template-columns: 4.5fr 5.5fr; /* Optimized balance */
   }
 }
 
@@ -96,7 +96,7 @@
 }
 
 .hero-brand {
-  margin-bottom: 1.5rem; /* Reduced bottom margin */
+  margin-bottom: 1.5rem;
 }
 
 .hero-eyebrow {
@@ -143,14 +143,14 @@
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.55);
   max-width: 36rem;
-  margin-bottom: 2.5rem; /* Reduced bottom margin */
+  margin-bottom: 2.5rem;
 }
 
 .hero-btn-group {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 3rem; /* Reduced bottom margin */
+  margin-bottom: 3rem;
 }
 
 .btn-premium-primary {
@@ -233,7 +233,7 @@
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 42rem; /* Increased size to fill more space */
+  max-width: 42rem;
 }
 
 .portrait-image {
@@ -242,7 +242,6 @@
   object-fit: contain;
   object-position: top;
   display: block;
-  /* Fading effect at the bottom */
   mask-image: linear-gradient(to bottom, black 75%, transparent 98%);
   -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 98%);
   filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5));
@@ -299,7 +298,7 @@
 
 @media (max-width: 1023px) {
   .hero-container {
-    padding-top: 8rem;
+    padding-top: 6rem;
   }
   .hero-visual-area {
     margin-top: 2rem;
